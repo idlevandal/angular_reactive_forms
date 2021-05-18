@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,52 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'forms';
+
+  constructor(private fb: FormBuilder) {}
+
+  get userNameCtrl(){
+    return this.regoForm.get('userName');
+  }
+
+  regoForm = this.fb.group({
+    userName: ['Dave', [Validators.required, Validators.minLength(3)]],
+    password: [''],
+    confirmPassword: [''],
+    address: this.fb.group({
+      city: [''],
+      state: [''],
+      postCode: [''],
+    })
+  });
+
+  // USING FormGroup
+  // regoForm = new FormGroup({
+  //   userName: new FormControl('Dave'),
+  //   password: new FormControl(''),
+  //   confirmPassword: new FormControl(''),
+  //   address: new FormGroup({
+  //     city: new FormControl(''),
+  //     state: new FormControl(''),
+  //     postCode: new FormControl(''),
+  //   })
+  // });
+
+  public loadData(): void {
+    // set value STRICT on maintaining structure of the FormGroup
+    // use patchValue for updating selected values
+    this.regoForm.setValue({
+      userName: 'Bill',
+      password: 'testing',
+      confirmPassword: 'testing',
+      address: {
+        city: 'Gold Coast',
+        state: 'Queensland',
+        postCode: '4220',
+      }
+    })
+  }
+
+  public clear(): void {
+    this.regoForm.reset();
+  }
 }
