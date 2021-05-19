@@ -7,6 +7,7 @@
       <div *ngIf='userNameCtrl?.invalid && userNameCtrl?.touched'>
         <small *ngIf='userNameCtrl?.errors?.required' class="text-danger">Username is required</small>
         <small *ngIf='userNameCtrl?.errors?.minlength' class="text-danger">Must be at least 3 characters</small>
+        <small *ngIf='userNameCtrl?.errors?.forbiddenName' class="text-danger">{{userNameCtrl?.errors?.forbiddenName.value}} is not allowed</small>
       </div>
     </div>
 
@@ -39,7 +40,7 @@
       </div>
     </div>
 
-    <button class="btn btn-primary">Register</button>
+    <button [disabled]='!regoForm.valid' class="btn btn-primary">Register</button>
     <button (click)='loadData()' class="btn btn-secondary ms-2">Load Data</button>
     <button (click)='clear()' class="btn btn-danger ms-2">Clear</button>
 
